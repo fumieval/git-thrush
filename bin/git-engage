@@ -2,11 +2,13 @@
 
 if [ -z $1 ]; then
   branch="$(git suffix)"
+  feature="^"
 else
   branch="$1-$(git suffix)"
+  feature=$1
 fi
 
 git fetch -p
 git checkout $branch ||
-  git checkout -b $branch $(git branch -r | grep "$1$") ||
+  git checkout -b $branch $(git branch -r | grep "$feature$") ||
   git checkout -b $branch "$(git-base)"
