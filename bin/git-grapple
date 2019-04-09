@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
+git fetch -p
 git rebase -i --autosquash "${1:-$(git base)}"
