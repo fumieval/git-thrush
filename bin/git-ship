@@ -33,8 +33,8 @@ git push origin "$branch:$dest" || exit 1
 if [ "$branch" != "$(git suffix)" ]; then
   feature=${branch%-$(git suffix)}
   if [ -n $feature ]; then
-    git branch -D $feature
     git push origin --delete $feature
   fi
-  git engage && git branch -D "$branch" && git push origin --delete "$branch"
+  git checkout $base
+  git branch -D "$branch" && git push origin --delete "$branch"
 fi
