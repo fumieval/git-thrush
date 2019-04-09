@@ -6,13 +6,15 @@ branch=$(git ensure-suffix) || exit 1
 base=$(git base)
 
 if [ -z $base ]; then
-  base=4b825dc642cb6eb9a060e54bf8d69288fbee4904
-  dest=master
-else
-  dest=$(echo $base | cut -d '/' -f 2)
-  # Rebase
-  git grapple || exit 1
+  git push origin "$branch:master" || exit 1
+  git remote set-head origin master
+  exit 0
 fi
+
+dest=$(echo $base | cut -d '/' -f 2)
+
+# Rebase
+git grapple $base || exit 1
 
 if [ -e "$(git rev-parse --show-toplevel)/.git/REBASE_HEAD" ]; then
   echo "Aborting git ship for amendment."
