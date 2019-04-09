@@ -12,11 +12,18 @@ fi
 
 dest=$(echo $base | cut -d '/' -f 2)
 
+hash=$(git rev-parse HEAD)
+
 # Rebase
 git grapple $base || exit 1
 
 if [ -e "$(git rev-parse --show-toplevel)/.git/REBASE_HEAD" ]; then
   echo "Aborting git ship for amendment."
+  exit 0
+fi
+
+if [ $hash != $(git rev-parse HEAD) ]; then
+  echo "Please test once again."
   exit 0
 fi
 
