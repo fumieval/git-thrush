@@ -2,3 +2,6 @@
 
 current=$(git ensure-suffix) || exit 1
 git push "$USER" "$current" --force
+
+feature=${current%.$(git suffix)}
+git push "$USER" "$current:$feature" --force-with-lease
