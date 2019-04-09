@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-git engage $1 || exit 1
 branch=$(git ensure-suffix) || exit 1
 
 base=$(git base)
@@ -32,5 +31,10 @@ git push origin "$branch:$dest" || exit 1
 
 # Remove branches
 if [ "$branch" != "$(git suffix)" ]; then
+  feature=${branch%-$(git suffix)}
+  if [ -n $feature ]; then
+    git branch -D $feature
+    git push origin --delete $feature
+  fi
   git engage && git branch -D "$branch" && git push origin --delete "$branch"
 fi
